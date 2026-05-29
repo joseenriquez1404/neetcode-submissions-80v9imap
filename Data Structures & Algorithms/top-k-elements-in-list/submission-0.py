@@ -1,20 +1,16 @@
-from collections import Counter
-import heapq
+from collections import defaultdict
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        
-        # Primero obtenemos las frecuencias
-        freq = Counter(nums)
-        
-        # Implementamos un min-heap
-        heap = []
-        for num, count in freq.items():
-            heapq.heappush(heap, (count, num))
+        hashy = defaultdict()
 
-            if len(heap) > k:
-                heapq.heappop(heap)
+        for num in nums:
+            if num not in hashy:
+                hashy[num] = 1
+            else:
+                hashy[num] += 1
 
-        # Imprimimos el resultado
-        result = [num for count, num in heap]
-        return result
+        ordenado = dict(sorted(hashy.items(), key=lambda x: x[1], reverse = True))
+        return list(ordenado.keys())[:k]
+
+        
